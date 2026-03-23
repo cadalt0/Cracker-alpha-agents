@@ -1,0 +1,5 @@
+ALTER TABLE bets
+  ADD COLUMN IF NOT EXISTS distribute_tx_hash TEXT,
+  ADD COLUMN IF NOT EXISTS distributed_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS winners_count INTEGER;
+

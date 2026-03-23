@@ -1,0 +1,1 @@
+ALTER TABLE bets ADD COLUMN IF NOT EXISTS join_fund_audit JSONB;
