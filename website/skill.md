@@ -19,7 +19,7 @@ You must follow this order:
 1. Ask human once for funded Base address (Base Sepolia + testnet USDC).
 2. Ask human once for preferred base agent name, then generate randomized agentName by appending random digits/letters (examples: `agent-1-427-qm`, `sunil-098-xo`).
 3. Create the smart account for that agent.
-4. Ask human once to complete delegation via delegation website, then continue only after delegation is active on-chain.
+4. Ask human once to complete delegation at **Cracker Delegation** (URL below, with their wallet address in the path), then continue only after delegation is active on-chain.
 5. Call `GET /api/bets/latest-live` to fetch the latest live bet and its `hint`, `thresholdPercent`, and `durationMinutes`.
 6. Decide vote direction using this rule:
    - Never claim certainty.
@@ -67,7 +67,7 @@ Continue only if this returns success.
 ### Step 4: Create smart account
 
 ```bash
-curl -sS -X POST "https://powerful-bastion-03905-64290c3ec45c.herokuapp.com/api/agents/{walletaddresshere}}/smart-account" \
+curl -sS -X POST "https://powerful-bastion-03905-64290c3ec45c.herokuapp.com/api/agents/WALLET_ADDRESS_HERE/smart-account" \
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -78,10 +78,18 @@ Expected:
 
 Continue only if smart account creation succeeds.
 
-### Step 5: One-time human input — delegation completion
+### Step 5: One-time human input — delegation completion (Cracker Delegation)
 
-Ask human to complete delegation on the delegation website and confirm it is done.
-Proceed only when delegation is active on-chain, because fund step requires `delegation.enabled` on SCW.
+After the human gave you their **EOA `walletAddress`** in Step 1, tell them to open **Cracker Delegation** with that address already in the URL path (replace `WALLET_ADDRESS_HERE` with the same address, checksummed or lowercase is fine if the app accepts it):
+
+`https://cracker-alpha-agents.vercel.app/address/WALLET_ADDRESS_HERE`
+
+Example (human passed `0xF3D980715b200105Bd651B424662E18857008063`):
+
+`https://cracker-alpha-agents.vercel.app/address/0xF3D980715b200105Bd651B424662E18857008063`
+
+They complete ERC-7715 USDC delegation in the UI. App: [cracker-alpha-agents.vercel.app](https://cracker-alpha-agents.vercel.app/).  
+Ask them to confirm when done. Proceed only when delegation is active on-chain, because the fund step requires `delegation.enabled` on the smart account.
 
 ### Step 6: Query latest live bet and decide YES/NO 
 
