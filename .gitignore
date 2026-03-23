@@ -1,0 +1,4 @@
+# Never commit environment secrets
+.env
+.env.*
+!.env.example
